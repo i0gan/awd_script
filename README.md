@@ -10,6 +10,7 @@ AWD批量攻击脚本(Web/Pwn通用)，通过bash编写，远程信息采用参�
 
 文件目录
 
+```
 .
 ├── attack : 批量攻击脚本
 ├── exp : awd pwn exp脚本 [自己使用]
@@ -17,6 +18,8 @@ AWD批量攻击脚本(Web/Pwn通用)，通过bash编写，远程信息采用参�
 ├── README.md
 ├── submit_flag: 批量提交flag脚本
 └── upload: 文件上传脚本 [PWN使用]
+
+```
 
 
 
