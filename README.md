@@ -6,6 +6,20 @@ AWD批量攻击脚本(Web/Pwn通用)，通过bash编写，远程信息采用参�
 
 各位师傅，下面批量脚本已运用在多次线下awd比赛中，其中web/pwn都运用过，各位web|| pwn师傅给个星是对我最大的支持，谢谢！
 
+
+
+文件目录
+
+.
+├── attack : 批量攻击脚本
+├── exp : awd pwn exp脚本 [自己使用]
+├── hosts: 攻击靶机远程信息，ip:port
+├── README.md
+├── submit_flag: 批量提交flag脚本
+└── upload: 文件上传脚本 [PWN使用]
+
+
+
 ## 批量如何使用？
 
 attack脚本就是批量攻击脚本，攻击脚本如下。
