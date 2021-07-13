@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ip_start=1
+ip_end=20
+ip=192.168.1.
+port=22
+
+for((i=$ip_start; i < $ip_end; i++));
+do
+    echo $ip$i:$port >> hosts
+done
