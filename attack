@@ -1,13 +1,11 @@
-#! /bin/sh
-# A script for awd loop attack
-# Author: i0gan
+#! /bin/bash
 
 attack_times=10000
-round_wait_time=540
-wait_submit_time=20
+round_wait_time=300 # 20 min
+wait_submit_time=60 # 20 s
 log_file="logs"
 run_time=3m
-next_attack_time=0.2
+next_attack_time=0.5
 
 log() {
     t=`date "+%H:%M:%S"`
@@ -22,13 +20,13 @@ attack() {
     cat flags >> all_flags
     rm flags
     for line in `cat hosts`;do
-        timeout --foreground $run_time python ./exp $line &
+        timeout --foreground $run_time  python ./exp $line &
         sleep $next_attack_time
     done
     echo -e "\x1b[47;30m Waitting $wait_submit_time s to submit flag\x1b[0m"
     sleep $wait_submit_time
     echo -e "\x1b[47;30m Submiting flag\x1b[0m"
-    python3 ./submit_flag
+    python ./submit_flag
 }
 
 for((i=1; i <= $attack_times; i++));

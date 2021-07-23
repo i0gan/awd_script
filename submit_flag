@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# Author: i0gan
 # A script for awd loop submit flag
 
 import os

@@ -33,7 +33,6 @@ attack脚本就是批量攻击脚本，攻击脚本如下。
 ```sh
 #! /bin/sh
 # A script for awd loop attack
-# Author: i0gan
 
 attack_times=10000 # 总共攻击循环次数，设置大一点，就不用管了
 round_wait_time=540 # 下一轮次的等待时间，也就是flag的刷新间隔时间
@@ -134,65 +133,3 @@ def write_to_logs(d):
 
 Web的话师傅们自行调整下。
 
-## 提取和检查flag脚本
-```python
-
-#! /usr/bin/python
-import sys
-import string
-
-ip = server_ip = sys.argv[1].split(':')[0] # 获取ip
-port = int(sys.argv[1].split(':')[1]) # 获取port
-
-r = remote(ip, port)
-
-def filter_flag(head, flag):
-    content = flag.split('{')[1].split('}')[0]
-
-    for i in content:
-        if not (i in string.hexdigits):
-            print("content is wrong")
-            return None
-    # 检查大括号内容是否全为16进制数据
-
-    return head + '{' + content + '}'
-
-
-def check_flag(flag):
-    head,flag = flag.split('{')[0], flag.split('{')[1]
-    content = flag.split('}')[0]
-
-    if not  str.isascii(head):
-        print("head is wrong")
-        head = None
-    # 检查flag头部是否为asc码
-
-    for i in content:
-        if not (i in string.hexdigits):
-            print("content is wrong")
-            content = None
-    # 检查flag内容是否为16进制
-
-    return head, content
-    # 分别返回flag头部和内容
-
-# ----------check 1
-flag = '\x7fflag \x7fflag{46e705acdef115290044e32b48307603}'
-flag = filter_flag('d0g3', flag)
-head, content = check_flag(flag)
-print(head, content)
-
-with open('flags', 'a') as f:
-    f.write(content + '\n')
-    f.close()
-
-
-
-# ----------check 2
-
-#flag = '\x7fflag \x7fflag{46e705acdegf115290044e32b48307603}'
-#flag = filter_flag('d0g3', flag)
-#head, content = check_flag(flag)
-#print(head, content)
-
-```
