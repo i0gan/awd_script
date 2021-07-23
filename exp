@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-# Author: i0gan, happi0
 # A script for awd exp
 
 from pwn import *
 import os
 import sys
-import string
 
 ip = server_ip = sys.argv[1].split(':')[0]
 port = int(sys.argv[1].split(':')[1])
@@ -86,52 +84,4 @@ if __name__ == '__main__':
             libc = ELF(libc_path)
     exploit()
     finish()
-
-
-
-# -----------------get flag -----------
-def filter_flag(head, flag):
-    content = flag.split('{')[1].split('}')[0]
-
-    for i in content:
-        if not (i in string.hexdigits):
-            print("content is wrong")
-            return None
-
-    return head + '{' + content + '}'
-
-
-def check_flag(flag):
-    head,flag = flag.split('{')[0], flag.split('{')[1]
-    content = flag.split('}')[0]
-
-    if not  str.isascii(head):
-        print("head is wrong")
-        head = None
-
-    for i in content:
-        if not (i in string.hexdigits):
-            print("content is wrong")
-            content = None
-
-    return head, content
-
-# ----------check 1
-flag = '\x7fflag \x7fflag{46e705acdef115290044e32b48307603}'
-flag = filter_flag('d0g3', flag)
-head, content = check_flag(flag)
-print(head, content)
-
-with open('flags', 'a') as f:
-    f.write(content + '\n')
-    f.close()
-
-
-
-# ----------check 2
-
-#flag = '\x7fflag \x7fflag{46e705acdegf115290044e32b48307603}'
-#flag = filter_flag('d0g3', flag)
-#head, content = check_flag(flag)
-#print(head, content)
 
