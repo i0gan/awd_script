@@ -1,7 +1,7 @@
 #!/bin/bash
 
 copy(){
-    init_script=(exp attack submit_flag init_hosts)
+    init_script=(exp attack submit_flag init_hosts check)
 
     for var in ${init_script[@]};
     do
