@@ -133,16 +133,4 @@ def write_to_logs(d):
 
 Web的话师傅们自行调整下。
 
-## 提取和检查flag脚本
-```python
-
-#! /usr/bin/python
-import sys
-import string
-
-ip = server_ip = sys.argv[1].split(':')[0] # 获取ip
-port = int(sys.argv[1].split(':')[1]) # 获取port
-
-r = remote(ip, port)
-
 ```
