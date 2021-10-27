@@ -4,9 +4,9 @@ import sys
 import requests
 
 def write_to_flags(d):
-	fd = open('./flags', 'ab')
-	fd.write(d + b'\n')
-	fd.close()
+    fd = open('./flags', 'ab')
+    fd.write(d + b'\n')
+    fd.close()
 
 server_ip = sys.argv[1].split(':')[0]
 server_port = sys.argv[1].split(':')[1]
