@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ip_start=101
-ip_end=180
+ip_end=110
 ip=10.1.
 port=8080
 
