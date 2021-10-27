@@ -7,7 +7,6 @@ copy(){
     do
         cp $var "${1}${count}"
     done
-
 }
 
 create_dir(){

@@ -20,7 +20,7 @@ attack() {
     cat flags >> all_flags
     rm flags
     for line in `cat hosts`;do
-        timeout --foreground $run_time  python ./exp $line &
+        timeout --foreground $run_time  python ./web_exp.py $line &
         sleep $next_attack_time
     done
     echo -e "\x1b[47;30m Waitting $wait_submit_time s to submit flag\x1b[0m"

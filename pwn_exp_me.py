@@ -22,7 +22,7 @@ ia  =  lambda : io.interactive()
 c   =  lambda : io.close()
 li    = lambda x : log.info('\x1b[01;38;5;214m' + x + '\x1b[0m')
 
-elf_path  = 'pwn'
+elf_path  = './pwn'
 LOCAL = 1
 LIBC  = 0
 
@@ -52,12 +52,7 @@ def cat_flag():
 
 def write_to_flags(d):
     fd = open('./flags', 'ab')
-    fd.write(d)
-    fd.close()
-
-def write_to_logs(d):
-    fd = open('./logs', 'ab')
-    fd.write(d)
+    fd.write(d + b'\n')
     fd.close()
     
 #--------------------------exploit--------------------------
