@@ -162,19 +162,19 @@ header = {
 }
 
 def submit():
-        with open(flag_file) as flag_txt:
-                flags = flag_txt.readlines()
-                for flag in flags:
-                        flag = flag.strip()
-                        d = ''
-                        d += flag
-                        print(d)
-                        try:
-                                res = requests.post(url,data=d,headers=header,timeout=2)
-                                li(res.text)
-                        except:
-                                li('connect fail!')
-                                continue
+    with open(flag_file) as flag_txt:
+        flags = flag_txt.readlines()
+        for flag in flags:
+            flag = flag.strip()
+            d = ''
+            d += flag
+            print(d)
+            try:
+                res = requests.post(url,data=d,headers=header,timeout=2)
+                li(res.text)
+            except:
+                li('connect fail!')
+                continue
 submit()
 ```
 
