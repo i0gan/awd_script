@@ -15,7 +15,6 @@ AWD批量攻击脚本(Web/Pwn通用)，通过bash编写，远程信息采用参�
 ├── attack.sh : 批量攻击脚本
 ├── hosts : 攻击靶机远程信息，ip:port
 ├── init_hosts.sh : 初始化队伍ip和端口，将信息储存在hosts文件
-├── init_path.sh : 初始化文件目录，web && pwn [一般不使用]
 ├── pwn_exp.py : awd pwn exp脚本例子
 ├── pwn_upload.py : 文件上传脚本 [PWN使用]
 ├── submit_flag.py  : 批量提交flag脚本
