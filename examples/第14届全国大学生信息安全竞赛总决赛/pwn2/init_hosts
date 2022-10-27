@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ip_start=101
+ip_end=180
+ip=10.1.
+port=9999
+
+rm hosts 2> /dev/null
+for((i=$ip_start; i <= $ip_end; i++));
+do
+    echo $ip$i".5":$port >> hosts
+done
