@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+# Author: i0gan
+# A script for awd loop submit flag
+
+import os
+import json
+import requests
+li = lambda x : print('\x1b[01;38;5;214m' + x + '\x1b[0m')
+
+url = 'http://10.10.28.11//api/competition/flag/'
+flag_file = './flags'
+header = {
+"Host": "10.10.28.11",
+"Proxy-Connection": "keep-alive",
+"Accept": "application/json, text/plain, */*",
+"X-CSRFToken": "AEsg11TGHovQjhmUU8BjtLF45Sp30SpVCF6PbSfkwa6gEwh7Yenh4H4c16orbhvk",
+"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36",
+"Authorization": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2NDUsInVzZXJuYW1lIjoieHVsdmd1byIsImV4cCI6MTYzNDY5MTY5NywiZW1haWwiOiIifQ.HhZqZbTbdtcNnxtkNrGi4hA_iUwA9XRZ4RC0g8IMtjU",
+"Content-Type": "application/json;charset=UTF-8",
+"Origin": "http://10.10.28.11",
+"Referer": "http://10.10.28.11/",
+"Accept-Encoding": "gzip, deflate",
+"Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+"Cookie": "awd_csrftoken=AEsg11TGHovQjhmUU8BjtLF45Sp30SpVCF6PbSfkwa6gEwh7Yenh4H4c16orbhvk; awd_sessionid=v2edyvczx7xvibiddfh6sxs8kmvt7e4i; awd_web_csrftoken=AEsg11TGHovQjhmUU8BjtLF45Sp30SpVCF6PbSfkwa6gEwh7Yenh4H4c16orbhvk; awd_web__jwttoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2NDUsInVzZXJuYW1lIjoieHVsdmd1byIsImV4cCI6MTYzNDY5MTY5NywiZW1haWwiOiIifQ.HhZqZbTbdtcNnxtkNrGi4hA_iUwA9XRZ4RC0g8IMtjU",
+}
+
+def submit():
+    with open(flag_file) as flag_txt:
+        flags = flag_txt.readlines()
+        for flag in flags:
+            flag = flag.strip()
+            d = '{"flag":"'
+            d += flag + '"}'
+            print(d)
+            try:
+                res = requests.post(url,data=d,headers=header,timeout=2)
+                li(res.text)
+            except:
+                li('connect fail!')
+                continue
+submit()
